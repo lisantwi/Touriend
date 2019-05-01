@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gender: MyString
+  language: MyString
+  price: 1
+  guide_name: MyString
+  summary: MyText
+  expertise_area: MyString
+  active: false
+  user: one
+
+two:
+  gender: MyString
+  language: MyString
+  price: 1
+  guide_name: MyString
+  summary: MyText
+  expertise_area: MyString
+  active: false
+  user: two

@@ -1,0 +1,175 @@
+<div id="main">
+  <div id="left">
+    <!-- SEARCH PANEL -->
+    <div class="row">
+      <div class="col-md-offset-4 col-md-4">
+        <button id="filter" class="btn btn-default" data-toggle="collapse" data-target="#collapsePanel">
+          More filters <i class="fa fa-chevron-down"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <br/>
+      <div class="collapse" id="collapsePanel">
+
+          <%= search_form_for @search, url: search_path, remote: true do |f| %>
+
+              <div class="row">
+                <div class="col-md-8">
+                  <label>Price range:</label>
+                </div>
+                <div class="col-md-2">
+                  <label>Min Price:</label>
+                  <%= f.text_field :price_gteq, class: "form-control" %>
+                </div>
+                <div class="col-md-2">
+                  <label>Max Price:</label>
+                  <%= f.text_field :price_lteq, class: "form-control" %>
+                </div>
+              </div>
+              <hr/>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <%= text_field_tag :start_date, params[:start_date], readonly: true, placeholder: "Start Date", class: "form-control datepicker" %>
+                </div>
+                <div class="col-md-6">
+                  <%= text_field_tag :end_date, params[:end_date], readonly: true, placeholder: "End Date", class: "form-control datepicker" %>
+                </div>
+              </div>
+              <hr/>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <%= check_box_tag "q[gender_eq_any][]", "Female" %> Female
+                </div>
+                <div class="col-md-6">
+                  <%= check_box_tag "q[gender_eq_any][]", "Male" %> Male
+                </div>
+              </div>
+              <hr/>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group select">
+                    <label>Language</label>
+                    <%= f.select :language_gteq, [["English", "English"],["French", "French"], ["Spanish", "Spanish"], ["German", "German"],["Swahili", "Swahili"], ["Arabic", "Arabic"],["Farsi", "Farsi"]], id: "language", prompt: "Select...", class: "form-control" %>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group select">
+                    <label>Full-time/Part-time</label>
+                    <%= f.select :time_spent_gteq, [["Full-Time", "Full-Time"], ["Part-Time", "Part-Time"]], id: "time_spent", prompt: "Select...", class: "form-control" %>
+                  </div>
+                </div>
+              </div>
+              <hr/>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <%= check_box_tag "q[has_shopping_eq]", true %> Shopping
+                </div>
+                <div class="col-md-4">
+                  <%= check_box_tag "q[has_museum_eq]", true %> Food Spots
+                </div>
+                <div class="col-md-4">
+                  <%= check_box_tag "q[has_outdoors_eq]", true %> Nightlife
+                </div>
+                <div class="col-md-4">
+                  <%= check_box_tag "q[has_monuments_eq]", true %> Museums
+                </div>
+                <div class="col-md-4">
+                  <%= check_box_tag "q[has_food_eq]", true %> Outdoor Activities
+                </div>
+                <div class="col-md-4">
+                  <%= check_box_tag "q[has_night_eq]", true %> Historical Monuments
+                </div>
+              </div>
+              <hr/>
+
+              <div class="row text-center">
+                <%= f.submit "Search", class: "btn btn-form" %>
+              </div>
+          <% end %>
+      </div>
+
+
+      <br/>
+
+      <div class="row div-guides" id="service_listing">
+        <%= render partial: "services/services_list", locals: {services: @arrServices} %>
+
+      </div>
+
+
+
+    </div>
+  </div>
+
+
+  <div id="right">
+    <!-- GOOGLE MAP WILL BE HERE -->
+
+    <div id="map" style="width: 100%; height: 100%"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=#{ENV['maps_api_key]}&callback=initMap">
+  </script>
+    <script>
+        function initialize(services) {
+          var location = {lat: 44.5403, lng: -78.5463}
+
+          if (services.length > 0) {
+            location = {lat: services[0].latitude, lng: services[0].longitude}
+          }
+
+          var map = new google.maps.Map(document.getElementById('map'), {
+            center: location,
+            zoom: 12
+          });
+
+          var marker, inforwindow;
+
+          services.forEach(function(service) {
+            marker = new google.maps.Marker({
+              position: {lat: service.latitude, lng: service.longitude},
+              map: map
+            });
+
+            inforwindow = new google.maps.InfoWindow({
+              content: "<div class='map_price'>$" + service.price + "</div>"
+            });
+
+            inforwindow.open(map, marker);
+          })
+        }
+
+        google.maps.event.addDomListener(window, 'load', function() {
+          initialize(<%= raw @arrServices.to_json %>)
+        });
+    </script>
+  </div>
+</div>
+
+  <script>
+    $('#start_date').datepicker({
+      dateFormat: 'dd-mm-yy',
+      minDate: 0,
+      maxDate: '3m',
+      onSelect: function(selected) {
+        $('#end_date').datepicker("option", "minDate", selected);
+        $('#end_date').attr("disabled", false);
+      }
+    });
+
+    $('#end_date').datepicker({
+      dateFormat: 'dd-mm-yy',
+      minDate: 0,
+      maxDate: '3m',
+      onSelect: function(selected) {
+        $('#start_date').datepicker("option", "maxDate", selected);
+      }
+    });
+
+
+  </script>

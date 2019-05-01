@@ -1,0 +1,34 @@
+<% if @traveler_reviews.count == 0 %>
+  <div class="text-center">
+    <h4>There are no reviews.</h4>
+  </div>
+<% else %>
+
+  <% @traveler_reviews.order(id: :desc).each do |r| %>
+    <hr/>
+    <div class="row">
+      <div class="col-md-3 text-center">
+        <%= image_tag avatar_url(r.traveler), class: "img-circle avatar-medium" %><br/><br/>
+        <strong><%= r.traveler.fullname %></strong>
+      </div>
+      <div class="col-md-9">
+        <div id="star_<%= r.id %>">"</div>
+
+
+        <div><%= r.created_at.strftime("%v") %></div>
+        <div><%= r.comment %></div>
+      </div>
+    </div>
+
+    <script>
+      $('#star_<%= r.id %>').raty({
+        path: '/assets',
+        readOnly: true,
+        score: <%= r.star %>
+      });
+    </script>
+
+
+
+  <% end %>
+<% end %>

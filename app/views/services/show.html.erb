@@ -1,0 +1,219 @@
+<!-- Image -->
+<div class="row">
+  <div class="col-md-12">
+      <div class="row carousel-container">
+
+        <div class="carousel-style">
+
+          <% if @photos.length > 0 %>
+              <div id="myCarousel" class="carousel slide" data-ride="carousel">
+              <!-- Indicators -->
+              <ol class="carousel-indicators">
+                <% @photos.each do |photo| %>
+                    <li data-target="#myCarousel" data-slide-to="<%= photo.id %>"></li>
+                <% end %>
+              </ol>
+
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner">
+                <% @photos.each do |photo| %>
+                    <div class="item <%= 'active' if photo.id == @photos[0].id %>">
+                      <%= image_tag photo.image.url() %>
+                    </div>
+                <% end %>
+              </div>
+
+              <!-- Left and right controls -->
+              <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <hr/>
+
+    </div>
+</div>
+<br/>
+
+<div class="row">
+  <!-- LEFT PANEL -->
+  <div class="col-md-8">
+
+        <!-- Listing Name -->
+        <div class="row text-center">
+          <div class="col-md-8">
+            <h2>Hello, my name is <%= @service.guide_name %></h2>
+            <h4> I'm from <%= @service.city %> </h4>
+          </div>
+          <div class="col-md-4 text-center">
+            <%= image_tag avatar_url(@service.user), class: "img-circle avatar-large" %><br/><br/>
+            <%= @service.user.fullname %>
+          </div>
+        </div>
+        <hr/>
+
+        <!-- service Info -->
+        <div class="row text-babu">
+          <div class="row text-center row-space-1">
+            <div class="col-md-4">
+              <i class="fa fa-intersex fa-2x"></i>
+            </div>
+            <div class="col-md-4">
+              <i class="fa fa-flag-o fa-2x"></i>
+            </div>
+            <div class="col-md-4">
+              <i class="fa fa-clock-o fa-2x"></i>
+            </div>
+          </div>
+
+          <div class="row text-center">
+            <div class="col-md-4"><%= @service.gender %></div>
+            <div class="col-md-4"><%= @service.language %></div>
+            <div class="col-md-4"><%= @service.time_spent %></div>
+          </div>
+
+        </div>
+
+          <hr/>
+
+
+
+
+
+
+        <!-- About -->
+  <div class="row div-service">
+    <div class="col-md-12">
+      <h3>Get to know me:</h3>
+      <p><%= @service.summary %></p>
+    </div>
+  </div>
+  <br/>
+  <hr/>
+
+
+        <!-- Amenities -->
+        <div class="row div-service">
+          <div class="col-md-3">
+            <h3>Expertise Area</h3>
+          </div>
+
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-6">
+                <ul class="expertise_area">
+                  <li class="<%= 'text-line-through' if !@service.has_shopping %>">Shopping</li>
+                  <li class="<%= 'text-line-through' if !@service.has_museum %>">Museums</li>
+                  <li class="<%= 'text-line-through' if !@service.has_outdoors %>">Outdoor Activities</li>
+              </div>
+              <div class="col-md-6">
+                <ul class="expertise_area">
+                  <li class="<%= 'text-line-through' if !@service.has_monuments %>">Historical Monuments</li>
+                  <li class="<%= 'text-line-through' if !@service.has_food %>">Fine Dining</li>
+                  <li class="<%= 'text-line-through' if !@service.has_night %>">Night Life</li>
+              </div>
+
+            </div>
+          </div>
+
+          </div>
+
+
+        <hr/>
+
+    <!-- Review -->
+    <div class="row div-service">
+      <div class="col-md-12">
+        <h3>
+          <%= pluralize(@traveler_reviews.count, "Review") %>
+          <span id="average_rating"></span>
+        </h3>
+        <div class="container">
+          <div><%= render "reviews/traveler_list" %></div>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <hr/>
+
+
+    <!-- GOOGLE MAP -->
+    <div class="row div-service">
+
+      <div id="map" style="width: 100%; height: 400px"></div>
+
+      <script src="https://maps.googleapis.com/maps/api/js?key=#{ENV['maps_api_key]}&callback=initMap">
+  </script>
+
+      <script>
+          function initialize() {
+            var location = {lat: <%= @service.latitude %>, lng: <%= @service.longitude %>};
+            var map = new google.maps.Map(document.getElementById('map'), {
+              center: location,
+              zoom: 14
+            });
+
+            var marker = new google.maps.Marker({
+              position: location,
+              map: map
+            });
+
+            var infoWindow = new google.maps.InfoWindow({
+              content: '<div id="content"><%= image_tag @service.cover_photo(:medium) %></div>'
+            });
+
+            infoWindow.open(map, marker);
+          }
+
+          google.maps.event.addDomListener(window, 'load', initialize);
+      </script>
+
+    </div>
+    <hr/>
+
+    <!-- NEAR BY ROOMS -->
+    <div class="row div-service">
+      <h3>Near by Guides</h3>
+      <% for service in @service.nearbys(10) %>
+          <div class="col-md-4">
+            <div class="panel panel-default">
+              <div class="panel-heading preview">
+                <%= image_tag service.cover_photo(:medium) %>
+              </div>
+              <div class="panel-body">
+                <%= link_to service.guide_name, service %><br/>
+                (<%= service.distance.round(2) %> Miles away)
+              </div>
+            </div>
+          </div>
+      <% end %>
+    </div>
+
+  </div>
+
+    <!-- RIGHT PANEL -->
+<div class="col-md-4">
+  <!-- Reservation Form -->
+  <%= render 'reservations/form' %>
+</div>
+
+
+  </div>
+
+
+
+
+  <script>
+    $('#average_rating').raty({
+      path: '/assets',
+      readOnly: true,
+      score: <%= @service.average_rating %>
+    });
+  </script>

@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-3">
+    <%= render 'service_menu' %>
+  </div>
+  <div class="col-md-9">
+    <div class="panel panel-default">
+
+      <div class="panel-heading">
+        Listing
+      </div>
+
+      <div class="panel-body">
+        <div class="container">
+          <%= form_for @service do |f| %>
+
+            <div class="row">
+
+              <div class="col-md-4 select">
+                <div class="form-group">
+                  <label>Gender</label>
+                  <%= f.select :gender, [["Female", "Female"], ["Male", "Male"]],
+                                id: "gender", prompt: "Select...", class: "form-control" %>
+                </div>
+              </div>
+
+              <div class="col-md-4 select">
+                <div class="form-group">
+                  <label>Language</label>
+                  <%= f.select :language, [["English", "English"],["French", "French"], ["Spanish", "Spanish"], ["German", "German"],["Swahili", "Swahili"], ["Arabic", "Arabic"],["Farsi", "Farsi"]],
+                                id: "language", prompt: "Select...", class: "form-control" %>
+                </div>
+              </div>
+
+              <div class="col-md-4 select">
+                <div class="form-group">
+                  <label>Full-time or Part-time?</label>
+                  <%= f.select :time_spent, [["Full-Time", "Full-Time"], ["Part-Time", "Part-Time"]],
+                                id: "time_spent", prompt: "Select...", class: "form-control" %>
+                </div>
+              </div>
+
+
+
+
+            </div>
+
+            <div><%= f.submit "Save", class: "btn btn-normal" %></div>
+
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

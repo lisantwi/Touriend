@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-3">
+    <%= render 'service_menu' %>
+  </div>
+  <div class="col-md-9">
+    <div class="panel panel-default">
+
+      <div class="panel-heading">
+        Expertise Area
+      </div>
+
+      <div class="panel-body">
+        <div class="container">
+          <%= form_for @service do |f| %>
+
+              <div class="row form-group">
+                <div class="col-md-4">
+                  <%= f.check_box :has_shopping %> Shopping
+                </div>
+                <div class="col-md-4">
+                  <%= f.check_box :has_food %> Food Spots
+                </div>
+                <div class="col-md-4">
+                  <%= f.check_box :has_night %> Nightlife
+                </div>
+                <div class="col-md-4">
+                  <%= f.check_box :has_museum %> Museums
+                </div>
+                <div class="col-md-4">
+                  <%= f.check_box :has_outdoors %> Outdoor Activities
+                </div>
+                <div class="col-md-4">
+                  <%= f.check_box :has_monuments %> Historical Monuments
+                </div>
+              </div>
+
+
+              <br/><br/>
+
+              <div class="text-center">
+                <%= f.submit "Save", class: "btn btn-form" %>
+              </div>
+
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

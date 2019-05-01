@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Tell us about yourself!
+  </div>
+  <div class="panel-body">
+    <div class="container">
+
+      <%= form_for @guide_service do |f| %>
+
+        <div class="row">
+
+          <div class="col-md-4 select">
+            <div class="form-group">
+              <label>Gender</label>
+              <%= f.select :gender, [["Female", "Female"], ["Male", "Male"]],
+                            id: "gender", prompt: "Select...", class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="col-md-4 select">
+            <div class="form-group">
+              <label>Language</label>
+              <%= f.select :language, [["English", "English"], ["Spanish", "Spanish"], ["French", "French"]],["German", "German"]],
+                            id: "language", prompt: "Select...", class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="col-md-4 select">
+            <div class="form-group">
+              <label>Expertise Area</label>
+              <%= f.select :expertise_area, [["Lover of the outdoors","Lover of the outdoors"], ["Brunch Connoiseur","Brunch Connoiseur"], ["Shop-a-holic","Shop-a-holic"], ["Museum Expert","Museum Expert"]],
+                            id: "expertise_area", prompt: "Select...", class: "form-control" %>
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <div><%= f.submit "Create My listing", class: "btn btn-normal" %></div>
+
+      <% end %>
+
+    </div>
+  </div>
+</div>

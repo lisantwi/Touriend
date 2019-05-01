@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-md-3">
+    <ul class="sidebar-list">
+      <li class="sidebar-item"><%= link_to "Your Listings", services_path, class: "sidebar-link active" %></li>
+      <li class="sidebar-item"><%= link_to "Your Reservations", your_reservations_path, class: "sidebar-link active" %></li>
+      <li class="sidebar-item"><%= link_to "Your bookings", your_bookings_path, class: "sidebar-link active" %></li>
+    </ul>
+  </div>
+  <div class="col-md-9">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Your bookings
+      </div>
+      <div class="panel-body">
+
+        <% @bookings.each do |booking| %>
+          <div class="row">
+            <div class="col-md-2">
+              <%= booking.start_date.strftime('%v') %>
+            </div>
+            <div class="col-md-2">
+              <%= link_to service_path(booking.service) do %>
+                <%= image_tag booking.service.cover_photo(:thumb) %>
+              <% end %>
+            </div>
+            <div class="col-md-5">
+              <%= link_to booking.service.guide_name, service_path(booking.service) %><br/><br/>
+              <span class="pull-right text-center">
+                <%= image_tag avatar_url(booking.service.user), class: "img-circle avatar-small" %>
+                <%= link_to user_path(booking.service.user) do %>
+                    <%= booking.service.user.fullname %>
+                <% end %>
+              </span>
+            </div>
+            <div class="col-md-3 text-right">
+                    <%= render partial: "reviews/traveler_form", locals: {reservation: booking} %>
+            </div>
+
+
+          </div>
+          <hr/>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

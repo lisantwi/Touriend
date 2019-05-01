@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-3">
+    <%= render 'service_menu' %>
+  </div>
+  <div class="col-md-9">
+    <div class="panel panel-default">
+
+      <div class="panel-heading">
+        Description
+      </div>
+
+      <div class="panel-body">
+        <div class="container">
+          <%= form_for @service do |f| %>
+
+            <div class="row">
+              <div class="form-group">
+                <label>Guide Name</label>
+                <%= f.text_field :guide_name, placeholder: "What is your name?", class: "form-control", required: true %>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label>Tell us about yourself!</label>
+                <%= f.text_area :summary, rows: 5, placeholder: "Summary of what makes you unique", class: "form-control", required: true %>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <%= f.submit "Save", class: "btn btn-form" %>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

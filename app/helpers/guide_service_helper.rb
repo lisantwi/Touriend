@@ -1,0 +1,2 @@
+module GuideServiceHelper
+end
