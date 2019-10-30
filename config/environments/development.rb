@@ -31,7 +31,7 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
 
@@ -61,25 +61,26 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.smtp_settings = {
-    address: 'smtp.mailgun.org',
-    port: 587,
-    domain: 'sandbox9ac58258c6c54f079f7a28649ae990c4.mailgun.org',
-    authentication: 'plain',
-    user_name: 'postmaster@sandbox9ac58258c6c54f079f7a28649ae990c4.mailgun.org',
-    password: 'ba8e34245dd7e1d05015c1b492e0bddf-7bce17e5-688f03e6'
-  }
+  # config.action_mailer.smtp_settings = {
+  #   address: 'smtp.mailgun.org',
+  #   port: 587,
+
+  #   user_name: ENV["user_name"],
+  #   password: ENV["password"]
+  # }
+
+  config.action_mailer.raise_delivery_errors = false
 
    config.paperclip_defaults = {
      storage: :s3,
      path: ':class/:attachment/:id/:style/:filename',
      s3_host_name: 's3.amazonaws.com',
      s3_credentials: {
-       bucket: 'touriend',
-       access_key_id: 'AKIAJGDP2CFUAQV2N6SA',
-       secret_access_key: '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',
+       bucket: 'touriend3',
+       access_key_id: ENV["access_key_id"],
+       secret_access_key: ENV["secret_access_key"],
        s3_region: 'us-east-1'
     }
   }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_30_204635) do
+ActiveRecord::Schema.define(version: 2019_10_30_042825) do
 
   create_table "photos", force: :cascade do |t|
     t.integer "service_id"
@@ -70,8 +70,8 @@ ActiveRecord::Schema.define(version: 2019_04_30_204635) do
     t.boolean "has_food"
     t.boolean "has_night"
     t.string "time_spent"
-    t.float "longitude"
     t.float "latitude"
+    t.float "longitude"
     t.index ["user_id"], name: "index_services_on_user_id"
   end
 
